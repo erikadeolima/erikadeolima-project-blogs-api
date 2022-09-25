@@ -5,17 +5,17 @@ const PostCategory = (sequelize, DataTypes) => {
     updated: DataTypes.DATE,
   });
   PostCategory.associate = (models) => {
-    models.BlogPost.belongsToMany(models.User, {
-      as: 'users',
+    models.Category.belongsToMany(models.BlogPost, {
+      as: 'blog_post',
       through: PostCategory,
-      foreignKey: 'bookId', // se refere ao id de Book na tabela de `users_books`
-      otherKey: 'userId', // se refere a outra chave de `users_books` 
+      foreignKey: 'category_id',
+      otherKey: 'post_id',
     });
-    models.User.belongsToMany(models.Book, {
-      as: 'books',
+    models.BlogPost.belongsToMany(models.Category, {
+      as: 'category',
       through: PostCategory,
-      foreignKey: 'userId',  // se refere ao id de User na tabela de `users_books`
-      otherKey: 'bookId',
+      foreignKey: 'post_id',
+      otherKey: 'category_id',
     });
   };
 
