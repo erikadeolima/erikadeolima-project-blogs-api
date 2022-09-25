@@ -9,27 +9,23 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      display_name: {
-        allowNull: false,
+      displayName: {
         type: Sequelize.STRING,
-        field: 'display_name',
+        allowNull: false,
+        field: 'display_name'
       },
       email: {
-        allowNull: false,
         type: Sequelize.STRING,
         unique: true,
-        field: 'email',
+        allowNull: false,
       },
       password: {
-        allowNull: false,
         type: Sequelize.STRING,
+        allowNull: false,
       },
       image: {
-        allowNull: false,
         type: Sequelize.STRING,
-        validate: {
-          isUrl: true,
-        }
+        allowNull: false,
       },
     });
   },

@@ -1,45 +1,29 @@
-const BlogPost = require('../models/BlogPost');
+const { User } = require('../models/User');
 
-const getAllPost = async () => {
-  const post = await BlogPost.findAll();
-  return post;
+const createUser = ({ 
+  displayName,
+  email,
+  password,
+  image }) => User.create({
+    displayName,
+    email,
+    password,
+    image });
+
+const getUsers = () => User.findAll();
+
+const getByEmail = (email) => {
+  console.log(email);
+  const findOne = User.findOne({ where: { email } });
+  console.log(findOne);
+  return findOne;
 };
 
-const getPostById = async (id) => {
-  const post = await BlogPost.findByPk(id);
-
-  return post;
-};
-
-const createPost = async (fullName, email) => {
-  const newPost = await BlogPost.create({ fullName, email });
-
-  return newPost;
-};
-
-const updatePost = async (id, fullName, email) => {
-  const [updatedPost] = await BlogPost.update(
-    { fullName, email },
-    { where: { id } },
-  );
-
-  console.log(updatedPost); 
-  return updatedPost;
-};
-
-const deletePost = async (id) => {
-  const post = await BlogPost.destroy(
-    { where: { id } },
-  );
-
-  console.log(post);
-  return post;
-};
+const getByUserId = (userId) => User.findByPk(userId);
 
 module.exports = {
-  getAllPost,
-  createPost,
-  getPostById,
-  updatePost,
-  deletePost,
+  createUser,
+  getUsers,
+  getByEmail,
+  getByUserId,
 };
