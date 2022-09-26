@@ -1,16 +1,18 @@
-require('dotenv/config');
+/* require('dotenv/config'); */
 const jwt = require('jsonwebtoken');
 
-const secret = process.env.JWT_SECRET || 'suaSenhaSecreta';
+const secret = process.env.JWT_SECRET || 'secretJWT'; 
 
-const jwtConfig = {
-  expiresIn: '7d',
-  algorithm: 'HS256',
-};
+function tokenEncode({ email, displayName, id }) {
+  const jwtConfig = {
+    expiresIn: '7d',
+    algorithm: 'HS256',
+  };
 
-function token(email) {
-  const jwtToken = jwt.sign({ data: email }, secret, jwtConfig);
+  const payload = { email, displayName, id };
+  const jwtToken = jwt.sign(payload, secret, jwtConfig);
+  console.log(jwtToken);
   return jwtToken;
 } 
 
-module.exports = { token };
+module.exports = { tokenEncode };
