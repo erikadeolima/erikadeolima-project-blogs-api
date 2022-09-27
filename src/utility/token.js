@@ -11,7 +11,6 @@ function tokenEncode({ email, displayName, id }) {
 
   const payload = { email, displayName, id };
   const jwtToken = jwt.sign(payload, secret, jwtConfig);
-  console.log(jwtToken);
   return jwtToken;
 } 
 

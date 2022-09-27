@@ -2,15 +2,15 @@ require('dotenv/config');
 const { User } = require('../models');
 const { tokenEncode } = require('../utility/token');
 
-const isBodyValid = (email, password) => email && password;
+// const isBodyValid = (email, password) => email && password;
 
 const loginController = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    if (!isBodyValid(email, password)) {
+    /* if (!isBodyValid(email, password)) {
       return res.status(400).json({ message: 'Some required fields are missing' });
-    }
+    } */
   
     const user = await User.findOne({
       attributes: ['id', 'displayName', 'email'],
@@ -21,8 +21,6 @@ const loginController = async (req, res) => {
     }
 
     const token = tokenEncode(user.dataValues);
-    console.log('token:', token);
-    console.log('user:', user);
 
     return res.status(200).json({ token });
   } catch (err) {

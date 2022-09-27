@@ -7,7 +7,7 @@ function loginMiddleware(req, res, next) {
     if (validate.error.details[0].type === 'string.empty') {
     res.status(400).json({ message: validate.error.details[0].message });
     } else {
-    res.status(400).json({ message: validate.error.details[0].message });
+    res.status(400).json({ message: 'Some required fields are missing' });
     }
   } else {
     next();

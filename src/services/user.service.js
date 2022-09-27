@@ -1,14 +1,21 @@
-const { User } = require('../models/User');
+const { User } = require('../models');
+const { tokenEncode } = require('../utility/token');
+const { errorGenerate } = require('../utility/errorGenerate');
 
-const createUser = ({ 
-  displayName,
-  email,
-  password,
-  image }) => User.create({
-    displayName,
-    email,
-    password,
-    image });
+async function createUser({ displayName, email, password, image }) {
+    const userExists = await User.findOne({ where: { email } });
+
+    if (userExists !== null) {
+      throw errorGenerate(
+            409, 'User already registered', console.log('userExists:', userExists),
+      ); 
+    }
+
+    const user = await User.create({ displayName, email, password, image });
+    console.log('userExists null:', userExists);
+    const token = tokenEncode(user.dataValues);
+    return { token };
+}
 
 const getUsers = () => User.findAll();
 
