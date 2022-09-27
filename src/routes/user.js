@@ -5,8 +5,8 @@ const userMiddleware = require('../middlewares/user.middleware');
 
 const userRouter = express.Router();
 
+userRouter.get('/user/:id', authorizationMiddleware, userController.userSearchById);
 userRouter.post('/user', userMiddleware, userController.userCreate);
 userRouter.get('/user', authorizationMiddleware, userController.userSearch);
-userRouter.get('/user/id', authorizationMiddleware, userController.userSearchById);
 
 module.exports = userRouter;

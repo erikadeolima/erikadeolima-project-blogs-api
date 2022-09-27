@@ -19,11 +19,14 @@ const getUsers = async () => {
   return users;
 };
 
-const getByUserId = async (userId) => {
-  const user = await User.findByPk({
+const getByUserId = async (id) => {
+  const user = await User.findByPk(id, {
     attributes: ['id', 'displayName', 'email', 'image'],
-    userId,
   });
+  if (user === null) {
+    // console.log('userERROR', user);
+    throw errorGenerate(404, 'User does not exist'); 
+  }
   return user;
 };
 

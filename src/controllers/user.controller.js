@@ -24,13 +24,15 @@ const userSearch = async (req, res, next) => {
 };
 
 const userSearchById = async (req, res, next) => {
+  const { id } = req.params;
   /* tentativa 01 
   const auth = req.header('Authorization');
   if (!auth) { throw errorGenerate(401, 'Token not found'); }
   const authorized = tokenDecode(auth);
   if (!authorized) { throw errorGenerate(401, 'Invalid token'); } */
   try {
-  const user = await UserService.getByUserId(req.params);
+  const user = await UserService.getByUserId(id);
+  // console.log('userId', user);
   return res.status(200).json(user);
   } catch (err) {
     next(err);
