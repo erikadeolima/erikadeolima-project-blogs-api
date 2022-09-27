@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const loginRoute = require('./routes/login');
 const userRoute = require('./routes/user');
+const errorMiddleware = require('./middlewares/error.middleware');
 
 // ...
 
@@ -13,12 +14,7 @@ app.use(bodyParser.json());
 app.use(loginRoute);
 app.use(userRoute);
 
-app.use((err, req, res, _next) => {
-  const status = err.status || 500;
-  const message = err.message || 'Erro inesperado';
-
-  return res.status(status).json({ message });
-});
+app.use(errorMiddleware);
 
 // ...
 
