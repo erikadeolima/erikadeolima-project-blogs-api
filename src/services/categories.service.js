@@ -14,7 +14,7 @@ const createCategory = async ({ name }) => {
 };
 
 const getCategories = async () => {
-  const categories = await Category.findAll({ attributes: ['id', 'displayName'] });
+  const categories = await Category.findAll({ attributes: ['id', 'name'] });
   return categories;
 };
 
