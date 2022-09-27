@@ -12,6 +12,16 @@ function tokenEncode({ email, displayName, id }) {
   const payload = { email, displayName, id };
   const jwtToken = jwt.sign(payload, secret, jwtConfig);
   return jwtToken;
-} 
+}
 
-module.exports = { tokenEncode };
+/* async */ function tokenDecode(token) {
+  try {
+    // const payload = { email, displayName, id };
+    const jwtToken = jwt.verify(token, secret);
+    return jwtToken;
+  } catch (err) {
+    return false;
+  }
+}
+
+module.exports = { tokenEncode, tokenDecode };

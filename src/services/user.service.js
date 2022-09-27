@@ -14,21 +14,21 @@ async function createUser({ displayName, email, password, image }) {
     return { token };
 }
 
-const getUsers = () => User.findAll();
-
-const getByEmail = (email) => {
-  const findOne = User.findOne({ where: { email } });
-  if (findOne === null) {
-    throw errorGenerate(400, 'Invalid fields'); 
-  }
-  return findOne;
+const getUsers = async () => {
+  const users = await User.findAll({ attributes: ['id', 'displayName', 'email', 'image'] });
+  return users;
 };
 
-const getByUserId = (userId) => User.findByPk(userId);
+const getByUserId = async (userId) => {
+  const user = await User.findByPk({
+    attributes: ['id', 'displayName', 'email', 'image'],
+    userId,
+  });
+  return user;
+};
 
 module.exports = {
   createUser,
   getUsers,
-  getByEmail,
   getByUserId,
 };

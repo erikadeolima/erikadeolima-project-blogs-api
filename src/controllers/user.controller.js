@@ -1,5 +1,7 @@
 require('dotenv/config');
 const UserService = require('../services/user.service');
+// const { errorGenerate } = require('../utility/errorGenerate');
+// const { tokenDecode } = require('../utility/token');
 
 const userCreate = async (req, res, next) => {
   try {
@@ -10,6 +12,33 @@ const userCreate = async (req, res, next) => {
       next(err);
   }
 };
+
+const userSearch = async (req, res, next) => {
+  try {
+  const auth = await UserService.getUsers();
+  req.user = auth;
+  return res.status(200).json(auth);
+  } catch (err) {
+    next(err);
+  }
+};
+
+const userSearchById = async (req, res, next) => {
+  /* tentativa 01 
+  const auth = req.header('Authorization');
+  if (!auth) { throw errorGenerate(401, 'Token not found'); }
+  const authorized = tokenDecode(auth);
+  if (!authorized) { throw errorGenerate(401, 'Invalid token'); } */
+  try {
+  const user = await UserService.getByUserId(req.params);
+  return res.status(200).json(user);
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   userCreate,
+  userSearch,
+  userSearchById,
 };
