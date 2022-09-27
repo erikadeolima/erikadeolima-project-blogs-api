@@ -1,20 +1,32 @@
-const Category = require('../models/Category');
+const { Category } = require('../models');
+// const { tokenEncode } = require('../utility/token');
+const { errorGenerate } = require('../utility/errorGenerate');
 
-const getAllCategories = async () => {
-  const categories = await Category.findAll();
+const createCategory = async ({ name }) => {
+  const categoryExists = await Category.findOne({ where: { name } });
+
+  if (categoryExists !== null) {
+    throw errorGenerate(409, 'Category already registered'); 
+  }
+  const newCategory = await Category.create({ name });
+
+  return newCategory;
+};
+
+const getCategories = async () => {
+  const categories = await Category.findAll({ attributes: ['id', 'displayName'] });
   return categories;
 };
 
 const getCategoryById = async (id) => {
-  const category = await Category.findByPk(id);
-
+  const category = await Category.findByPk(id, {
+    attributes: ['id', 'email'],
+  });
+  if (category === null) {
+    // console.log('categoryERROR', category);
+    throw errorGenerate(404, 'Category does not exist'); 
+  }
   return category;
-};
-
-const createCategory = async (fullName, email) => {
-  const newCategory = await Category.create({ fullName, email });
-
-  return newCategory;
 };
 
 const updateCategory = async (id, fullName, email) => {
@@ -37,7 +49,7 @@ const deleteCategory = async (id) => {
 };
 
 module.exports = {
-  getAllCategories,
+  getCategories,
   createCategory,
   getCategoryById,
   updateCategory,
