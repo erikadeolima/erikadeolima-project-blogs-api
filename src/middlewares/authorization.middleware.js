@@ -1,16 +1,21 @@
-const errorGenerate = require('../utility/errorGenerate');
+const { errorGenerate } = require('../utility/errorGenerate');
 const { tokenDecode } = require('../utility/token');
 
-const authorizationMiddleware = async (req, _res, next) => {
+const authorizationMiddleware = async (req, res, next) => {
  const auth = req.header('Authorization');
- if (!auth) throw errorGenerate(401, 'Token not found');
+ console.log('auth', auth);
+ try {
+ if (!auth) { return res.status(401).json({ message: 'Token not found' }); }
  
- const userAuth = /* await */ tokenDecode(auth);
+ const userAuth = await tokenDecode(auth);
  
  if (!userAuth) throw errorGenerate(401, 'Expired or invalid token');
 
  req.user = userAuth;
- next();
+ return next();
+  } catch (err) {
+    next(err);
+  }
 };
 
 module.exports = authorizationMiddleware;

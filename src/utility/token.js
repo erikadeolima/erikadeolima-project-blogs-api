@@ -14,10 +14,11 @@ function tokenEncode({ email, displayName, id }) {
   return jwtToken;
 }
 
-/* async */ function tokenDecode(token) {
+async function tokenDecode(token) {
   try {
     // const payload = { email, displayName, id };
     const jwtToken = jwt.verify(token, secret);
+    // console.log('jwtToken', jwtToken);
     return jwtToken;
   } catch (err) {
     return false;
