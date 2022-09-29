@@ -1,9 +1,9 @@
-const { errorGenerate } = require('../utility/errorGenerate');
-const { tokenDecode } = require('../utility/token');
+const { errorGenerate } = require('../../utility/errorGenerate');
+const { tokenDecode } = require('../../utility/token');
 
 const authorizationMiddleware = async (req, res, next) => {
  const auth = req.header('Authorization');
- console.log('auth', auth);
+ // console.log('auth', auth);
  try {
  if (!auth) { return res.status(401).json({ message: 'Token not found' }); }
  

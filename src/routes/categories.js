@@ -1,7 +1,7 @@
 const express = require('express');
 const categoriesController = require('../controllers/categories.controller');
-const authorizationMiddleware = require('../middlewares/authorization.middleware');
-const categoryMiddleware = require('../middlewares/category.middleware');
+const authorizationMiddleware = require('../middlewares/authorization/authorization.middleware');
+const categoryMiddleware = require('../middlewares/category/category.middleware');
 
 const categoriesRouter = express.Router();
 
