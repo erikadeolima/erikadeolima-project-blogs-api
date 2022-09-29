@@ -19,9 +19,9 @@ const postSearchById = async (id) => {
 };
 
 const createPost = async ({ title, content, categoryIds }, userId) => {  
-  const category = await categoryIds.map((id) => (
+  const category = (await Promise.all(categoryIds.map((id) => (
     Category.findOne({ where: id })
-  )).every((item) => item !== null);
+  )))).every((item) => item !== null);
   console.log('category', category);
 
   if (!category) throw errorGenerate(400, '"categoryIds" not found');
