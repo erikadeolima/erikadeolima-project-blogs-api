@@ -12,8 +12,9 @@ const postCreate = async (req, res, next) => {
 
 const postSearch = async (req, res, next) => {
   try {
-  const postList = await PostService.postSearch();
-  return res.status(200).json(postList);
+    const { id } = req.user;
+    const postList = await PostService.postSearch(id);
+    return res.status(200).json(postList);
   } catch (err) {
     next(err);
   }
